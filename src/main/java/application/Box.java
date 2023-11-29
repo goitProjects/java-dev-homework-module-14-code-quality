@@ -1,9 +1,10 @@
 package application;
 
 public class Box {
-    private char[] boxArray =  { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-    private boolean boxAvailable = false;
+    private char[] boxArray = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private boolean boxAvailable = true;
     private byte winner = 0;
+    private boolean boxEmpty = false;
 
     public char[] getBoxArray() {
         return boxArray;
@@ -30,7 +31,9 @@ public class Box {
     }
 
     public void cleanTheBox() {
-        boxArray = new char[]{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-
+        if (!boxEmpty) {
+            boxArray = new char[]{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+            boxEmpty = true;
+        }
     }
 }
