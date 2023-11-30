@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class Logic {
     @SuppressWarnings("squid:S106")
 
-    private static final int[] firstLine = new int[]{0, 1, 2};
-    private static final int[] secondLine = new int[]{3, 4, 5};
-    private static final int[] thirdLine = new int[]{6, 7, 8};
-    private static final int[] firstColumn = new int[]{0, 3, 6};
-    private static final int[] secondColumn = new int[]{1, 4, 7};
-    private static final int[] thirdColumn = new int[]{2, 5, 8};
-    private static final int[] firstDiagonal = new int[]{0, 4, 8};
-    private static final int[] secondDiagonal = new int[]{2, 4, 6};
+    private static final int[] FINAL_LINE = new int[]{0, 1, 2};
+    private static final int[] SECOND_LINE = new int[]{3, 4, 5};
+    private static final int[] THIRD_LINE = new int[]{6, 7, 8};
+    private static final int[] FIRST_COLUMN = new int[]{0, 3, 6};
+    private static final int[] SECOND_COLUMN = new int[]{1, 4, 7};
+    private static final int[] THIRD_COLUMN = new int[]{2, 5, 8};
+    private static final int[] FIRST_DIAGONAL = new int[]{0, 4, 8};
+    private static final int[] SECOND_DIAGONAL = new int[]{2, 4, 6};
 
     private Logic() {
 
@@ -23,8 +23,8 @@ public class Logic {
         char[] boxArray = box.getBoxArray();
 
 
-        int[][] allTheLines = new int[][]{firstLine, secondLine, thirdLine, firstColumn, secondColumn, thirdColumn,
-                firstDiagonal, secondDiagonal};
+        int[][] allTheLines = new int[][]{FINAL_LINE, SECOND_LINE, THIRD_LINE, FIRST_COLUMN, SECOND_COLUMN, THIRD_COLUMN,
+                FIRST_DIAGONAL, SECOND_DIAGONAL};
         for (int i = 0; i < 8; i++) {
             boolean isEquals = false;
             int j = 0;
