@@ -84,4 +84,25 @@ public class Logic {
             }
         }
     }
+    public static void startGame(Box box, MessageService messageService, Scanner scan) {
+        while (true) {
+            messageService.printStartMessage();
+            messageService.printMessage(box);
+            if (box.getWinner() != 0) {
+                break;
+            }
+            box.cleanTheBox();
+            Logic.inputDigitValidation(scan, box);
+            byte winner = Logic.winnerSelector(box);
+            if (winner == 1 || winner == 3) {
+                box.setWinner(winner);
+                continue;
+            }
+            Logic.randomBoxChooser(box);
+            winner = Logic.winnerSelector(box);
+            if (winner == 2) {
+                box.setWinner(winner);
+            }
+        }
+    }
 }
