@@ -99,7 +99,7 @@ public class Game {
         return winner == 1 || winner == 2 || winner == 3;
     }
 
-    public void printMessage(Messages message) {
+    private void printMessage(Messages message) {
         System.out.println(message.getMessage());
     }
 }
