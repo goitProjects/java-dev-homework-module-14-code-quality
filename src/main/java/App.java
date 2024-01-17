@@ -10,6 +10,7 @@ public class App {
         boolean boxAvailable = false;
         byte winner = 0;
         char box[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        System.out.println("11111");
         System.out.println("Enter box number to select. Enjoy!\n");
 
         boolean boxEmpty = false;
