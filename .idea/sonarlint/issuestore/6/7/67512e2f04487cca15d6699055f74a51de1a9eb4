@@ -1,0 +1,25 @@
+
+s	java:S135"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆÿÿÿÿÿ
+0
+java:S1220""Move this file to a named package.
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 71 to the 15 allowed.(Çµí‘
+1
+java:S3626U"Remove this redundant jump.(ÉŠ©ƒ
+@
+java:S1197"*Move the array designators [] to the type.(©íôŒ
+@	java:S106"+Replace this use of System.out by a logger.(Ä™¶Æ
+@	java:S106"+Replace this use of System.out by a logger.(½šÆÛ
+@	java:S106"+Replace this use of System.out by a logger.(‚ÎšÛ
+?	java:S106"+Replace this use of System.out by a logger.(š²ıc
+@	java:S106"+Replace this use of System.out by a logger.(‚ÎšÛ
+@	java:S106"+Replace this use of System.out by a logger.(èå”
+@	java:S106"+Replace this use of System.out by a logger.(¯Óêï
+@	java:S106 "+Replace this use of System.out by a logger.(‰¨ËÓ
+E	java:S106#"+Replace this use of System.out by a logger.(äßŸµşÿÿÿÿ
+@	java:S106+"+Replace this use of System.out by a logger.(Ú÷•Ï
+@	java:S1062"+Replace this use of System.out by a logger.(àïôÊ
+B
+java:S1125D"'Remove the unnecessary boolean literal.(»«Ÿùşÿÿÿÿ
+Û
+java:S6541"ÄA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 76 to 64, Complexity from 67 to 14, Nesting Level from 4 to 2, Number of Variables from 9 to 6.(Çµí‘
