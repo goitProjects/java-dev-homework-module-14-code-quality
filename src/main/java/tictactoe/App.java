@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.*;
 
@@ -11,11 +12,13 @@ public class App {
     boolean boxEmpty = false;
     char[] board = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
+
+    /*setting up the LOGGER*/
     static {
         LogManager.getLogManager().reset();
-        ConsoleHandler consoleHandler = new ConsoleHandler();
+        ConsoleHandler customHandler = new ConsoleHandler();
 
-        consoleHandler.setFormatter(new Formatter() {
+        customHandler.setFormatter(new Formatter() {
             @Override
             public String format(LogRecord logRecord) {
                 return logRecord.getMessage() + "\n";
@@ -23,7 +26,7 @@ public class App {
         });
 
         LOGGER.setLevel(Level.FINEST);
-        LOGGER.addHandler(consoleHandler);
+        LOGGER.addHandler(customHandler);
     }
 
     public App() {
@@ -88,7 +91,10 @@ public class App {
             winner = 1;
     }
 
-
+    /**
+     * checks whether conditions of victory are met
+     * i.e. whether there is row of the same chars
+     **/
     private boolean checkRows(char character) {
         return checkRow(character, 0, 1, 2) ||
                 checkRow(character, 3, 4, 5) ||
@@ -123,7 +129,9 @@ public class App {
         if (winner != 0) return;
 
         while (true) {
+
             byte input = scan.nextByte();
+
             if (input > 0 && input < 10) {
                 if (board[input - 1] == 'X' || board[input - 1] == 'O')
                     LOGGER.info("That one is already in use. Enter another.");
@@ -135,6 +143,7 @@ public class App {
                 LOGGER.info("Invalid input. Enter again.");
         }
     }
+
 
 
     private void printBoard() {
