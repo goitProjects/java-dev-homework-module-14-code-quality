@@ -4,12 +4,17 @@ import java.util.Scanner;
 import java.util.logging.*;
 
 public class App {
-
-    private static final Logger LOGGER = Logger.getLogger("App");
+    private static final Logger LOGGER = Logger.getLogger(String.valueOf(App.class));
+    Scanner scan;
+    boolean boxAvailable = false;
+    byte winner = 0;
+    boolean boxEmpty = false;
+    char[] board = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     static {
         LogManager.getLogManager().reset();
         ConsoleHandler consoleHandler = new ConsoleHandler();
+
         consoleHandler.setFormatter(new Formatter() {
             @Override
             public String format(LogRecord logRecord) {
@@ -21,23 +26,16 @@ public class App {
         LOGGER.addHandler(consoleHandler);
     }
 
-    Scanner scan = new Scanner(System.in);
-    byte input;
-    byte rand;
-    byte i;
-    boolean boxAvailable = false;
-    byte winner = 0;
-    boolean boxEmpty = false;
-
-    char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
+    public App() {
+        this.scan = new Scanner(System.in);
+    }
 
     public void mainLoop() {
-
         LOGGER.info("Enter box number to select. Enjoy!\n");
 
         while (true) {
             printBoard();
+
             if (isGameEnded())
                 break;
 
@@ -49,14 +47,15 @@ public class App {
         }
     }
 
+
     private boolean isGameEnded() {
-        if(winner == 1){
+        if (winner == 1) {
             LOGGER.info("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
             return true;
-        } else if(winner == 2){
+        } else if (winner == 2) {
             LOGGER.info("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
             return true;
-        } else if(winner == 3){
+        } else if (winner == 3) {
             LOGGER.info("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
             return true;
         }
@@ -64,24 +63,25 @@ public class App {
         return false;
     }
 
+
     private void checkIfItsDraw() {
-        boxAvailable = false;
-        for(i=0; i<9; i++){
-            if(box[i] != 'X' && box[i] != 'O'){
+        for (byte i = 0; i < 9; i++) {
+            if (board[i] != 'X' && board[i] != 'O') {
                 boxAvailable = true;
                 break;
             }
         }
 
-        if(!boxAvailable){
+        if (!boxAvailable)
             winner = 3;
-        }
     }
+
 
     private void checkIfComputerWon() {
         if (checkRows('O'))
             winner = 2;
     }
+
 
     private void checkIfPlayerWon() {
         if (checkRows('X'))
@@ -100,48 +100,53 @@ public class App {
                 checkRow(character, 2, 4, 6);
     }
 
-    private boolean checkRow(char character, int index1, int index2, int index3 ) {
-        return box[index1] == character && box[index2] == character && box[index3] == character;
+
+    private boolean checkRow(char character, int index1, int index2, int index3) {
+        return board[index1] == character && board[index2] == character && board[index3] == character;
     }
+
 
     private void computersMove() {
         if (winner != 0) return;
+
         while (true) {
-            rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-            if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
-                box[rand - 1] = 'O';
+            byte rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
+            if (board[rand - 1] != 'X' && board[rand - 1] != 'O') {
+                board[rand - 1] = 'O';
                 break;
             }
         }
     }
 
+
     private void playersMove() {
         if (winner != 0) return;
+
         while (true) {
-            input = scan.nextByte();
+            byte input = scan.nextByte();
             if (input > 0 && input < 10) {
-                if (box[input - 1] == 'X' || box[input - 1] == 'O')
+                if (board[input - 1] == 'X' || board[input - 1] == 'O')
                     LOGGER.info("That one is already in use. Enter another.");
                 else {
-                    box[input - 1] = 'X';
+                    board[input - 1] = 'X';
                     break;
                 }
-            }
-            else
+            } else
                 LOGGER.info("Invalid input. Enter again.");
         }
     }
 
-    private void printBoard() {
-        LOGGER.info("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ");
-        LOGGER.info("-----------");
-        LOGGER.info(" " + box[3] + " | " + box[4] + " | " + box[5] + " ");
-        LOGGER.info("-----------");
-        LOGGER.info(" " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
 
-        if(!boxEmpty){
-            for(i = 0; i < 9; i++)
-                box[i] = ' ';
+    private void printBoard() {
+        LOGGER.info("\n\n " + board[0] + " | " + board[1] + " | " + board[2] + " ");
+        LOGGER.info("-----------");
+        LOGGER.info(" " + board[3] + " | " + board[4] + " | " + board[5] + " ");
+        LOGGER.info("-----------");
+        LOGGER.info(" " + board[6] + " | " + board[7] + " | " + board[8] + " \n");
+
+        if (!boxEmpty) {
+            for (byte i = 0; i < 9; i++)
+                board[i] = ' ';
             boxEmpty = true;
         }
     }
