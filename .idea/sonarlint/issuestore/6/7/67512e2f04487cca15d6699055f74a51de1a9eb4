@@ -1,0 +1,21 @@
+
+z	java:S135"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆÿÿÿÿÿ8´‹Ö´Ò1
+7
+java:S1220""Move this file to a named package.8¶‹Ö´Ò1
+{
+java:S1171"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ8ÇŒÖ´Ò1
+o
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 71 to the 15 allowed.(Çµí‘8ÈŒÖ´Ò1
+G	java:S106"+Replace this use of System.out by a logger.(Ä™¶Æ8ÏŒÖ´Ò1
+G	java:S106"+Replace this use of System.out by a logger.(½šÆÛ8ÏŒÖ´Ò1
+G	java:S106"+Replace this use of System.out by a logger.(‚ÎšÛ8ÏŒÖ´Ò1
+F	java:S106 "+Replace this use of System.out by a logger.(š²ıc8ĞŒÖ´Ò1
+G	java:S106!"+Replace this use of System.out by a logger.(‚ÎšÛ8ĞŒÖ´Ò1
+G	java:S106""+Replace this use of System.out by a logger.(èå”8ÑŒÖ´Ò1
+G	java:S106*"+Replace this use of System.out by a logger.(¯Óêï8ÑŒÖ´Ò1
+G	java:S106-"+Replace this use of System.out by a logger.(‰¨ËÓ8ÒŒÖ´Ò1
+L	java:S1060"+Replace this use of System.out by a logger.(äßŸµşÿÿÿÿ8ÒŒÖ´Ò1
+G	java:S1068"+Replace this use of System.out by a logger.(Ú÷•Ï8ÓŒÖ´Ò1
+G	java:S106?"+Replace this use of System.out by a logger.(àïôÊ8£ÂØ´Ò1
+â
+java:S6541"ÄA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 75 to 64, Complexity from 67 to 14, Nesting Level from 4 to 2, Number of Variables from 9 to 6.(Çµí‘8ÖŒÖ´Ò1
