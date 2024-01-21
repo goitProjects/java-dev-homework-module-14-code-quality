@@ -5,14 +5,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
 public class Game {
-    Scanner scan = new Scanner(System.in);
+    private static Scanner scan = new Scanner(System.in);
     private static final Logger logger = LogManager.getLogger(Game.class);
     private char[] box;
-    byte input;
-    byte rand;
-    byte i;
-    boolean boxAvailable = false;
-    byte winner = 0;
+    private byte i;
+    private byte winner = 0;
 
     public Game() {
         initializeGame();
@@ -61,7 +58,7 @@ public class Game {
     }
 
     private boolean notAvailableBox(){
-        boxAvailable = false;
+        boolean boxAvailable = false;
         for (i = 0; i < 9; i++) {
             if (box[i] != 'X' && box[i] != 'O') {
                 boxAvailable = true;
@@ -88,6 +85,7 @@ public class Game {
     }
 
     private void readUserXInput() {
+        byte input;
         while (true) {
             input = scan.nextByte();
             if (input > 0 && input < 10) {
@@ -103,6 +101,7 @@ public class Game {
     }
 
     private void readUser0input(){
+        byte rand;
         while (true) {
             rand = (byte) (Math.random() * 9);
             if (box[rand] != 'X' && box[rand] != 'O') {
