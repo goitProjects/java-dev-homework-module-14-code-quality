@@ -1,0 +1,10 @@
+
+u	java:S135"YReduce the total number of break and continue statements in this loop to use at most one.(ù‡ÜÛ8ùÂÉ„Ö1
+^
+java:S1854&"<Remove this useless assignment to local variable "gameOver".(ÌÌ˜úÿÿÿÿ8’ÃÉ„Ö1
+^
+java:S1854*"<Remove this useless assignment to local variable "gameOver".(ÌÌ˜úÿÿÿÿ8’ÃÉ„Ö1
+^
+java:S18541"<Remove this useless assignment to local variable "gameOver".(ÌÌ˜úÿÿÿÿ8’ÃÉ„Ö1
+H
+java:S1068"+Remove this unused "scanner" private field.(Ù‘Ğ8•ÃÉ„Ö1
