@@ -1,54 +1,76 @@
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.StringJoiner;
 
 public class App {
 
-    private static String[][] box = {{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}};
-
-    private static byte winner = 0;
+    private static char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    public static byte winner = 0;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         byte input;
+        boolean boxAvailable = false;
+
         System.out.println("Enter box number to select. Enjoy!\n");
 
         boolean boxEmpty = false;
         while (true) {
-
-            printBox(box);
-
-
+            printBox();
             if (!boxEmpty) {
-                for (int i = 0; i < box.length; i++) {
-                    Arrays.fill(box[i], " ");
-                }
+                Arrays.fill(box, ' ');
                 boxEmpty = true;
             }
 
-            //print the result
             if (printResult(winner)) break;
 
-            a:
             while (true) {
                 input = scan.nextByte();
                 if (input > 0 && input < 10) {
-                    for (int k = 0; k < box.length; k++) {
-                        if (box[k][input - 1].equals("X") || box[k][input - 1].equals("O")) {
-                            System.out.println("That one is already in use. Enter another.");
-                        } else {
-                            box[k][input - 1] = "X";
-                            break a;
-                        }
+                    if (box[input - 1] == 'X' || box[input - 1] == 'O')
+                        System.out.println("That one is already in use. Enter another.");
+                    else {
+                        box[input - 1] = 'X';
+                        break;
                     }
                 } else
                     System.out.println("Invalid input. Enter again.");
             }
 
-            setRandom();
-            getWinner();
+            if (isWinner(box, 'X')) {
+                winner = 1;
+                continue;
+            }
+
+
+            boxAvailable = false;
+            for (int i = 0; i < box.length; i++) {
+                if (box[i] != 'X' && box[i] != 'O') {
+                    boxAvailable = true;
+                    break;
+                }
+            }
+
+            if (!boxAvailable) {
+                winner = 3;
+                continue;
+            }
+
+            setRandomCell();
+
+            if (isWinner(box, 'O')) {
+                winner = 2;
+            }
         }
 
+    }
+
+    //print out the box with cells numbers
+    public static void printBox() {
+        System.out.println("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " "
+                + "\n-----------"
+                + "\n " + box[3] + " | " + box[4] + " | " + box[5] + " "
+                + "\n-----------"
+                + "\n " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
     }
 
     static boolean printResult(byte winner) {
@@ -65,42 +87,22 @@ public class App {
         return false;
     }
 
-    //to print out the result of used array. Streams view
-    public static void printBox(String[][] arr) {
-        StringJoiner joiner = new StringJoiner("\n---------\n");
-        for (String[] k : arr) {
-            String join = String.join(" | ", k);
-            joiner.add(join);
-        }
-        System.out.println(joiner.toString());
+    //search for the winner
+    public static boolean isWinner(char[] box, char player) {
+        return (box[0] == player && box[1] == player && box[2] == player) || (box[3] == player && box[4] == player && box[5] == player) || (box[6] == player && box[7] == player && box[8] == player) ||
+                (box[0] == player && box[3] == player && box[6] == player) || (box[1] == player && box[4] == player && box[7] == player) || (box[2] == player && box[5] == player && box[8] == player) ||
+                (box[0] == player && box[4] == player && box[8] == player) || (box[2] == player && box[4] == player && box[6] == player);
     }
 
-    //to define a winner
-    public static byte getWinner() {
-        for (int j = 0; j < box.length; j++) {
-            for (int k = 0; k < box[j].length; k++) {
-                if (box[j][k].equals("X")) {
-                    winner = 1;
-                } else if (box[j][k].equals("0")) {
-                    winner = 2;
-                } else winner = 3;
-            }
-        }
-        return winner;
-    }
-
-    //to set the opposite values in a random box
-    public static void setRandom() {
+    public static void setRandomCell() {
         byte rand;
-        b:
         while (true) {
-            rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-            for (int j = 0; j < box.length; j++) {
-                if (!box[j][rand - 1].equals("X") && !box[j][rand - 1].equals("O")) {
-                    box[j][rand - 1] = "O";
-                    break b;
-                }
+            rand = (byte) (Math.random() * 9 + 1);
+            if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
+                box[rand - 1] = 'O';
+                break;
             }
         }
     }
+
 }
