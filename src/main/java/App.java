@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class App {
 
-    private static char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     public static byte winner = 0;
 
     public static void main(String[] args) {
@@ -43,8 +43,8 @@ public class App {
 
 
             boxAvailable = false;
-            for (int i = 0; i < box.length; i++) {
-                if (box[i] != 'X' && box[i] != 'O') {
+            for (char c : box) {
+                if (c != 'X' && c != 'O') {
                     boxAvailable = true;
                     break;
                 }
