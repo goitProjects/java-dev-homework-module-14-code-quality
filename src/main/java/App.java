@@ -1,90 +1,136 @@
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class App {
 
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private static final char[] BOX = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        byte input;
-        byte rand;
-        byte i;
-        boolean boxAvailable = false;
         byte winner = 0;
-        char box[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         System.out.println("Enter box number to select. Enjoy!\n");
 
         boolean boxEmpty = false;
         while (true) {
-            System.out.println("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ");
-            System.out.println("-----------");
-            System.out.println(" " + box[3] + " | " + box[4] + " | " + box[5] + " ");
-            System.out.println("-----------");
-            System.out.println(" " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
-            if(!boxEmpty){
-                for(i = 0; i < 9; i++)
-                    box[i] = ' ';
-                boxEmpty = true;
-            }
 
-            if(winner == 1){
-                System.out.println("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
-                break;
-            } else if(winner == 2){
-                System.out.println("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
-                break;
-            } else if(winner == 3){
-                System.out.println("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+            printBoard();
+
+            boxEmpty = isBoxEmpty(boxEmpty);
+
+            if (printWinner(winner)) {
                 break;
             }
 
-            while (true) {
-                input = scan.nextByte();
-                if (input > 0 && input < 10) {
-                    if (box[input - 1] == 'X' || box[input - 1] == 'O')
-                        System.out.println("That one is already in use. Enter another.");
-                    else {
-                        box[input - 1] = 'X';
-                        break;
-                    }
-                }
-                else
-                    System.out.println("Invalid input. Enter again.");
+            playerMove();
+
+            if (checkWinner('X')) {
+                winner = 1;
             }
 
-            if((box[0]=='X' && box[1]=='X' && box[2]=='X') || (box[3]=='X' && box[4]=='X' && box[5]=='X') || (box[6]=='X' && box[7]=='X' && box[8]=='X') ||
-               (box[0]=='X' && box[3]=='X' && box[6]=='X') || (box[1]=='X' && box[4]=='X' && box[7]=='X') || (box[2]=='X' && box[5]=='X' && box[8]=='X') ||
-               (box[0]=='X' && box[4]=='X' && box[8]=='X') || (box[2]=='X' && box[4]=='X' && box[6]=='X')){
-                   winner = 1;
-                   continue;
-            }
-
-            boxAvailable = false;
-            for(i=0; i<9; i++){
-                if(box[i] != 'X' && box[i] != 'O'){
-                    boxAvailable = true;
-                    break;
-                }
-            }
-
-            if(boxAvailable == false){
+            if (!isBoxAvailable()) {
                 winner = 3;
-                continue;
             }
 
-            while (true) {
-                rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-                if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
-                    box[rand - 1] = 'O';
-                    break;
-                }
-            }
+            computerMove();
 
-            if((box[0]=='O' && box[1]=='O' && box[2]=='O') || (box[3]=='O' && box[4]=='O' && box[5]=='O') || (box[6]=='O' && box[7]=='O' && box[8]=='O') ||
-               (box[0]=='O' && box[3]=='O' && box[6]=='O') || (box[1]=='O' && box[4]=='O' && box[7]=='O') || (box[2]=='O' && box[5]=='O' && box[8]=='O') ||
-               (box[0]=='O' && box[4]=='O' && box[8]=='O') || (box[2]=='O' && box[4]=='O' && box[6]=='O')){
+            if (checkWinner('O')) {
                 winner = 2;
-                continue;
             }
         }
 
+    }
+
+    private static boolean isBoxEmpty(boolean boxEmpty) {
+        byte i;
+        if (!boxEmpty) {
+            for (i = 0; i < 9; i++) {
+                BOX[i] = ' ';
+            }
+            boxEmpty = true;
+        }
+        return boxEmpty;
+    }
+
+    private static boolean isBoxAvailable() {
+        boolean boxAvailable = false;
+        byte i;
+        for (i = 0; i < 9; i++) {
+            if (BOX[i] != 'X' && BOX[i] != 'O') {
+                boxAvailable = true;
+                break;
+            }
+        }
+        return boxAvailable;
+    }
+
+    private static void playerMove() {
+        byte input;
+        while (true) {
+            input = SCANNER.nextByte();
+            if (input > 0 && input < 10) {
+                if (BOX[input - 1] == 'X' || BOX[input - 1] == 'O') {
+                    System.out.println("That one is already in use. Enter another.");
+                } else {
+                    BOX[input - 1] = 'X';
+                    break;
+                }
+            } else {
+                System.out.println("Invalid input. Enter again.");
+            }
+        }
+    }
+
+    private static void computerMove() {
+        byte rand;
+        while (true) {
+            rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
+            if (BOX[rand - 1] != 'X' && BOX[rand - 1] != 'O') {
+                BOX[rand - 1] = 'O';
+                break;
+            }
+        }
+    }
+
+
+    private static boolean checkWinner(char player) {
+        int[][] winPattern = {
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8},    // Горизонтально
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8},    // Вертикально
+                {0, 4, 8}, {2, 4, 6}                // Діагонально
+        };
+
+        return Stream.of(winPattern)
+                .anyMatch(pattern -> BOX[pattern[0]] == player
+                        && BOX[pattern[1]] == player
+                        && BOX[pattern[2]] == player);
+    }
+
+    private static boolean printWinner(byte winner) {
+        switch (winner) {
+            case 1 -> {
+                System.out.println("You won the game!\n Created by Shreyas Saha. Thanks for playing!");
+                return true;
+            }
+            case 2 -> {
+                System.out.println("You lost the game!\n Created by Shreyas Saha. Thanks for playing!");
+                return true;
+            }
+            case 3 -> {
+                System.out.println("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    private static void printBoard() {
+        System.out.println("\n\n " + BOX[0] + " | " + BOX[1] + " | " + BOX[2] + " ");
+        System.out.println("-----------");
+        System.out.println(" " + BOX[3] + " | " + BOX[4] + " | " + BOX[5] + " ");
+        System.out.println("-----------");
+        System.out.println(" " + BOX[6] + " | " + BOX[7] + " | " + BOX[8] + " \n");
     }
 }
