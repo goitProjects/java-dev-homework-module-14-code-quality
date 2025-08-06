@@ -1,90 +1,128 @@
 package com.example;
 
+import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class App {
+    private static Logger logger = Logger.getLogger("");
+    private static String welcomeTemplate = "%n%n %c | %c | %c ";
+    private static Random randomGenerator = new Random();
+
+    private static void printWelcomeMsg(char[] box) {
+        // here we use 'sout' because logger will make the output ugly
+        // ignore Sonar remarks on this matter
+        System.out.println(String.format(welcomeTemplate, box[0], box[1], box[2]));
+        System.out.println("-----------");
+        System.out.println(String.format(welcomeTemplate, box[3], box[4], box[5]));
+        System.out.println("-----------");
+        System.out.println(String.format(welcomeTemplate, box[6], box[7], box[8]));
+
+    }
+
+    private static void printResultMsg(int winner) {
+        switch (winner) {
+            case 1:
+                logger.info("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
+                break;
+            case 2:
+                logger.info("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
+                break;
+            case 3:
+                logger.info("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+                break;
+            default:
+                logger.log(Level.WARNING, "Wrong variable value: {} (expected 1, 2, or 3)", winner);
+                break;
+        }
+    }
+
+    private static boolean allMatch(char[] arr, char value) {
+        for(int i = 1; i < arr.length; i++) {
+            if(arr[i] != value) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void makeBoxEmpty(char[] box) {
+        for(int i = 0; i < 9; i++)
+            box[i] = ' ';
+    }
+
+    private static byte generateRandomByteValye(int size) {
+        return (byte) (randomGenerator.nextInt(size) + 1);
+    }
+
+    private static void askForCell(Scanner scan, char[] box) {
+        byte input;
+        while (true) {
+            input = scan.nextByte();
+            if (input > 0 && input < 10) {
+                if (box[input - 1] == 'X' || box[input - 1] == 'O')
+                    logger.info("That one is already in use. Enter another.");
+                else {
+                    box[input - 1] = 'X';
+                    break;
+                }
+            }
+            else
+                logger.info("Invalid input. Enter again.");
+        }
+    }
+
+    private static boolean boxFull(char[] box) {
+        for(int i=0; i<9; i++){
+            if(box[i] != 'X' && box[i] != 'O'){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void computerMove(char[] box) {
+        byte rand;
+        while (true) {
+            rand = generateRandomByteValye(box.length);
+            if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
+                box[rand - 1] = 'O';
+                return;
+            }
+        }
+    }
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        byte input;
-        byte rand;
-        byte i;
-        boolean boxAvailable = false;
-        byte winner = 0;
-        char box[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-        System.out.println("Enter box number to select. Enjoy!\n");
+        char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        logger.info("Enter box number to select. Enjoy!\n");
 
-        boolean boxEmpty = false;
+        boolean needToEmptyBox = true;
         while (true) {
-            System.out.println("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ");
-            System.out.println("-----------");
-            System.out.println(" " + box[3] + " | " + box[4] + " | " + box[5] + " ");
-            System.out.println("-----------");
-            System.out.println(" " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
-            if(!boxEmpty){
-                for(i = 0; i < 9; i++)
-                    box[i] = ' ';
-                boxEmpty = true;
+            printWelcomeMsg(box);
+            if(needToEmptyBox){
+                makeBoxEmpty(box);
+                needToEmptyBox = false;
             }
 
-            if(winner == 1){
-                System.out.println("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
-                break;
-            } else if(winner == 2){
-                System.out.println("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
-                break;
-            } else if(winner == 3){
-                System.out.println("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
-                break;
+            askForCell(scan, box);
+
+            if(allMatch(box, 'X')){
+                printResultMsg(1);
+                return;
             }
 
-            while (true) {
-                input = scan.nextByte();
-                if (input > 0 && input < 10) {
-                    if (box[input - 1] == 'X' || box[input - 1] == 'O')
-                        System.out.println("That one is already in use. Enter another.");
-                    else {
-                        box[input - 1] = 'X';
-                        break;
-                    }
-                }
-                else
-                    System.out.println("Invalid input. Enter again.");
+            if(boxFull(box)){
+                printResultMsg(3);
+                return;
             }
 
-            if((box[0]=='X' && box[1]=='X' && box[2]=='X') || (box[3]=='X' && box[4]=='X' && box[5]=='X') || (box[6]=='X' && box[7]=='X' && box[8]=='X') ||
-               (box[0]=='X' && box[3]=='X' && box[6]=='X') || (box[1]=='X' && box[4]=='X' && box[7]=='X') || (box[2]=='X' && box[5]=='X' && box[8]=='X') ||
-               (box[0]=='X' && box[4]=='X' && box[8]=='X') || (box[2]=='X' && box[4]=='X' && box[6]=='X')){
-                   winner = 1;
-                   continue;
-            }
+            computerMove(box);
 
-            boxAvailable = false;
-            for(i=0; i<9; i++){
-                if(box[i] != 'X' && box[i] != 'O'){
-                    boxAvailable = true;
-                    break;
-                }
-            }
-
-            if(boxAvailable == false){
-                winner = 3;
-                continue;
-            }
-
-            while (true) {
-                rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-                if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
-                    box[rand - 1] = 'O';
-                    break;
-                }
-            }
-
-            if((box[0]=='O' && box[1]=='O' && box[2]=='O') || (box[3]=='O' && box[4]=='O' && box[5]=='O') || (box[6]=='O' && box[7]=='O' && box[8]=='O') ||
-               (box[0]=='O' && box[3]=='O' && box[6]=='O') || (box[1]=='O' && box[4]=='O' && box[7]=='O') || (box[2]=='O' && box[5]=='O' && box[8]=='O') ||
-               (box[0]=='O' && box[4]=='O' && box[8]=='O') || (box[2]=='O' && box[4]=='O' && box[6]=='O')){
-                winner = 2;
-                continue;
+            if(allMatch(box, 'O')) {
+                printResultMsg(2);
+                return;
             }
         }
 
