@@ -53,7 +53,7 @@ public class App {
     }
 
     private static byte generateRandomByteValye(int size) {
-        return (byte) (randomGenerator.nextInt(size) + 1);
+        return (byte) randomGenerator.nextInt(size);
     }
 
     private static void askForCell(Scanner scan, char[] box) {
@@ -86,8 +86,8 @@ public class App {
         byte rand;
         while (true) {
             rand = generateRandomByteValye(box.length);
-            if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
-                box[rand - 1] = 'O';
+            if (box[rand] != 'X' && box[rand] != 'O') {
+                box[rand] = 'O';
                 return;
             }
         }
