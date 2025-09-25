@@ -96,14 +96,14 @@ public class Game {
     }
 
     private boolean isWinner(Cell cell) {
-        return ((field[0] == cell && field[1] == cell && field[2] == cell) ||
-                (field[3] == cell && field[4] == cell && field[5] == cell) ||
-                (field[6] == cell && field[7] == cell && field[8] == cell) ||
-                (field[0] == cell && field[3] == cell && field[6] == cell) ||
-                (field[1] == cell && field[4] == cell && field[7] == cell) ||
-                (field[2] == cell && field[5] == cell && field[8] == cell) ||
-                (field[0] == cell && field[4] == cell && field[8] == cell) ||
-                (field[2] == cell && field[4] == cell && field[6] == cell));
+        return ((field[0] == cell && field[1] == cell && field[2] == cell)
+                || (field[3] == cell && field[4] == cell && field[5] == cell)
+                || (field[6] == cell && field[7] == cell && field[8] == cell)
+                || (field[0] == cell && field[3] == cell && field[6] == cell)
+                || (field[1] == cell && field[4] == cell && field[7] == cell)
+                || (field[2] == cell && field[5] == cell && field[8] == cell)
+                || (field[0] == cell && field[4] == cell && field[8] == cell)
+                || (field[2] == cell && field[4] == cell && field[6] == cell));
     }
 
     private boolean isGameAvailable() {
