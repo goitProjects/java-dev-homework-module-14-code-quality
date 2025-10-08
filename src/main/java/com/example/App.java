@@ -2,38 +2,39 @@ package com.example;
 
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class App {
-    private static Logger logger = Logger.getLogger("");
-    private static String welcomeTemplate = "%n%n %c | %c | %c ";
-    private static Random randomGenerator = new Random();
+    private static final String WELCOME_TEMPLATE = "%n%n %c | %c | %c ";
+    private static final Random randomGenerator = new Random();
+    private static final char PLAYER_SIGN = 'X';
+    private static final char COMPUTER_SIGN = 'O';
+    private static final int ZERO_CELL_NUMBER = 0;
+    private static final int LAST_CELL_NUMBER = 8;
 
     private static void printWelcomeMsg(char[] box) {
         // here we use 'sout' because logger will make the output ugly
         // ignore Sonar remarks on this matter
-        System.out.println(String.format(welcomeTemplate, box[0], box[1], box[2]));
+        System.out.println(String.format(WELCOME_TEMPLATE, box[0], box[1], box[2]));
         System.out.println("-----------");
-        System.out.println(String.format(welcomeTemplate, box[3], box[4], box[5]));
+        System.out.println(String.format(WELCOME_TEMPLATE, box[3], box[4], box[5]));
         System.out.println("-----------");
-        System.out.println(String.format(welcomeTemplate, box[6], box[7], box[8]));
+        System.out.println(String.format(WELCOME_TEMPLATE, box[6], box[7], box[8]));
 
     }
 
     private static void printResultMsg(int winner) {
         switch (winner) {
             case 1:
-                logger.info("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
+                System.out.println("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
                 break;
             case 2:
-                logger.info("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
+                System.out.println("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
                 break;
             case 3:
-                logger.info("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+                System.out.println("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
                 break;
             default:
-                logger.log(Level.WARNING, "Wrong variable value: {} (expected 1, 2, or 3)", winner);
+                System.out.println(String.format("Wrong variable value: %d (expected 1, 2, or 3)", winner));
                 break;
         }
     }
@@ -47,35 +48,35 @@ public class App {
         return true;
     }
 
-    private static void makeBoxEmpty(char[] box) {
-        for(int i = 0; i < 9; i++)
-            box[i] = ' ';
-    }
+    // private static void makeBoxEmpty(char[] box) {
+    //     for(int i = ZERO_CELL_NUMBER; i < LAST_CELL_NUMBER + 1; i++)
+    //         box[i] = ' ';
+    // }
 
-    private static byte generateRandomByteValye(int size) {
-        return (byte) randomGenerator.nextInt(size);
+    private static int generateRandomIntValue(int size) {
+        return (int) randomGenerator.nextInt(size);
     }
 
     private static void askForCell(Scanner scan, char[] box) {
-        byte input;
+        int input;
         while (true) {
-            input = scan.nextByte();
-            if (input > 0 && input < 10) {
-                if (box[input - 1] == 'X' || box[input - 1] == 'O')
-                    logger.info("That one is already in use. Enter another.");
+            input = scan.nextInt();
+            if (input > ZERO_CELL_NUMBER && input < 10) {
+                if (box[input - 1] == PLAYER_SIGN || box[input - 1] == COMPUTER_SIGN)
+                    System.out.println("That one is already in use. Enter another.");
                 else {
-                    box[input - 1] = 'X';
+                    box[input - 1] = PLAYER_SIGN;
                     break;
                 }
             }
             else
-                logger.info("Invalid input. Enter again.");
+                System.out.println("Invalid input. Enter again.");
         }
     }
 
     private static boolean boxFull(char[] box) {
-        for(int i=0; i<9; i++){
-            if(box[i] != 'X' && box[i] != 'O'){
+        for(int i = ZERO_CELL_NUMBER; i < LAST_CELL_NUMBER + 1; i++){
+            if(box[i] != PLAYER_SIGN && box[i] != COMPUTER_SIGN){
                 return false;
             }
         }
@@ -83,47 +84,50 @@ public class App {
     }
 
     private static void computerMove(char[] box) {
-        byte rand;
+        int rand;
         while (true) {
-            rand = generateRandomByteValye(box.length);
-            if (box[rand] != 'X' && box[rand] != 'O') {
-                box[rand] = 'O';
+            rand = generateRandomIntValue(box.length);
+            if (box[rand] != PLAYER_SIGN && box[rand] != COMPUTER_SIGN) {
+                box[rand] = COMPUTER_SIGN;
                 return;
             }
         }
     }
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-        logger.info("Enter box number to select. Enjoy!\n");
-
-        boolean needToEmptyBox = true;
-        while (true) {
-            printWelcomeMsg(box);
-            if(needToEmptyBox){
-                makeBoxEmpty(box);
-                needToEmptyBox = false;
+        try (Scanner scan = new Scanner(System.in)) {
+            char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            System.out.println("Enter box number to select. Enjoy!\n");
+    
+            // boolean needToEmptyBox = true;
+            while (true) {
+                printWelcomeMsg(box);
+                // if(needToEmptyBox){
+                //     makeBoxEmpty(box);
+                //     needToEmptyBox = false;
+                // }
+    
+                askForCell(scan, box);
+    
+                if(allMatch(box, PLAYER_SIGN)){
+                    printResultMsg(1);
+                    return;
+                }
+    
+                if(boxFull(box)){
+                    printResultMsg(3);
+                    return;
+                }
+    
+                computerMove(box);
+    
+                if(allMatch(box, COMPUTER_SIGN)) {
+                    printResultMsg(2);
+                    return;
+                }
             }
-
-            askForCell(scan, box);
-
-            if(allMatch(box, 'X')){
-                printResultMsg(1);
-                return;
-            }
-
-            if(boxFull(box)){
-                printResultMsg(3);
-                return;
-            }
-
-            computerMove(box);
-
-            if(allMatch(box, 'O')) {
-                printResultMsg(2);
-                return;
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
