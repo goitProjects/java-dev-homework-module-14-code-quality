@@ -48,11 +48,6 @@ public class App {
         return true;
     }
 
-    // private static void makeBoxEmpty(char[] box) {
-    //     for(int i = ZERO_CELL_NUMBER; i < LAST_CELL_NUMBER + 1; i++)
-    //         box[i] = ' ';
-    // }
-
     private static int generateRandomIntValue(int size) {
         return (int) randomGenerator.nextInt(size);
     }
@@ -99,13 +94,8 @@ public class App {
             char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             System.out.println("Enter box number to select. Enjoy!\n");
     
-            // boolean needToEmptyBox = true;
             while (true) {
                 printWelcomeMsg(box);
-                // if(needToEmptyBox){
-                //     makeBoxEmpty(box);
-                //     needToEmptyBox = false;
-                // }
     
                 askForCell(scan, box);
     
