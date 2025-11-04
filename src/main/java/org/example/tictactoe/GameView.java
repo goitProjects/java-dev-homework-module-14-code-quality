@@ -1,16 +1,23 @@
-package org.example.tictactoe.controller;
-
-import static org.example.tictactoe.view.View.printMessage;
+package org.example.tictactoe;
 
 import java.util.Scanner;
-import org.example.tictactoe.view.View;
 
-/**
- * Class responsible for handling user input.
- * It ensures that the input is valid and within the expected range.
- */
-public class InputHandler {
+public class GameView {
+    public static final String INVALID_INPUT = "Invalid input. Enter again.\n";
+    public static final String BOX_FIELD_IN_USE = "That one is already in use. Enter another.\n";
     private final Scanner scanner = new Scanner(System.in);
+
+    public void printBoard(char[] box) {
+        System.out.println("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ");
+        System.out.println("-----------");
+        System.out.println(" " + box[3] + " | " + box[4] + " | " + box[5] + " ");
+        System.out.println("-----------");
+        System.out.println(" " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
+    }
+
+    public void printMessage(String message) {
+        System.out.print(message);
+    }
 
     /**
      * Prompts the user to input a valid box number (1-9).
@@ -22,7 +29,7 @@ public class InputHandler {
         byte move;
         while (!scanner.hasNextByte()
                 || !isValidBoxField(move = scanner.nextByte())) {
-            printMessage(View.INVALID_INPUT);
+            printMessage(INVALID_INPUT);
             scanner.next();
         }
         return (byte) (move - 1);
@@ -45,5 +52,4 @@ public class InputHandler {
     public void closeResources() {
         scanner.close();
     }
-
 }

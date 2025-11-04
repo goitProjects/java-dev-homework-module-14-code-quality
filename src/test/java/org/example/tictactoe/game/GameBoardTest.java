@@ -1,19 +1,20 @@
-package org.example.tictactoe.model;
+package org.example.tictactoe.game;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.example.tictactoe.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GameTest {
-    private Game game;
+class GameBoardTest {
+    private GameBoard gameBoard;
 
     @BeforeEach
     void init() {
-        game = new Game();
+        gameBoard = new GameBoard();
     }
 
     @Test
@@ -21,9 +22,9 @@ class GameTest {
         // GIVEN
         char[] expectedBox = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
         // WHEN
-        game.clearBoard();
+        gameBoard.clearBoard();
         // THEN
-        assertArrayEquals(expectedBox, game.getBox());
+        assertArrayEquals(expectedBox, gameBoard.getBox());
     }
 
     @Test
@@ -31,7 +32,7 @@ class GameTest {
         // GIVEN
         char[] expectedBox = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
         // WHEN
-        char[] actualBox = game.getBox();
+        char[] actualBox = gameBoard.getBox();
         // THEN
         assertArrayEquals(expectedBox, actualBox);
     }
@@ -39,12 +40,12 @@ class GameTest {
     @Test
     void testBoxIsFullTrue() {
         // GIVEN
-        for (byte i = 0; i < game.getBox().length; i++) {
-            game.setCharAtPosition(i % 2 == 0 ? 'X' : 'O', i);
+        for (byte i = 0; i < gameBoard.getBox().length; i++) {
+            gameBoard.updateBox(i % 2 == 0 ? 'X' : 'O', i);
         }
         // WHEN
 
-        boolean actualIsFull = game.isFull();
+        boolean actualIsFull = gameBoard.isFull();
         // THEN
         assertTrue(actualIsFull);
     }
@@ -52,9 +53,9 @@ class GameTest {
     @Test
     void testBoxIsFullFalse() {
         // GIVEN
-        game.clearBoard();
+        gameBoard.clearBoard();
         // WHEN
-        boolean actualIsFull = game.isFull();
+        boolean actualIsFull = gameBoard.isFull();
         // THEN
         assertFalse(actualIsFull);
     }
@@ -62,11 +63,11 @@ class GameTest {
     @Test
     void testIsWinningRowTrue() {
         // GIVEN
-        game.setCharAtPosition('X', (byte) 0);
-        game.setCharAtPosition('X', (byte) 1);
-        game.setCharAtPosition('X', (byte) 2);
+        gameBoard.updateBox('X', (byte) 0);
+        gameBoard.updateBox('X', (byte) 1);
+        gameBoard.updateBox('X', (byte) 2);
         // WHEN
-        boolean actualIsWinning = game.isWinning();
+        boolean actualIsWinning = gameBoard.isWinning();
         // THEN
         assertTrue(actualIsWinning);
     }
@@ -74,11 +75,11 @@ class GameTest {
     @Test
     void testIsWinningColumnTrue() {
         // GIVEN
-        game.setCharAtPosition('O', (byte) 0);
-        game.setCharAtPosition('O', (byte) 3);
-        game.setCharAtPosition('O', (byte) 6);
+        gameBoard.updateBox('O', (byte) 0);
+        gameBoard.updateBox('O', (byte) 3);
+        gameBoard.updateBox('O', (byte) 6);
         // WHEN
-        boolean actualIsWinning = game.isWinning();
+        boolean actualIsWinning = gameBoard.isWinning();
         // THEN
         assertTrue(actualIsWinning);
     }
@@ -86,11 +87,11 @@ class GameTest {
     @Test
     void testIsWinningDiagonalTrue() {
         // GIVEN
-        game.setCharAtPosition('X', (byte) 2);
-        game.setCharAtPosition('X', (byte) 4);
-        game.setCharAtPosition('X', (byte) 6);
+        gameBoard.updateBox('X', (byte) 2);
+        gameBoard.updateBox('X', (byte) 4);
+        gameBoard.updateBox('X', (byte) 6);
         // WHEN
-        boolean actualIsWinning = game.isWinning();
+        boolean actualIsWinning = gameBoard.isWinning();
         // THEN
         assertTrue(actualIsWinning);
     }
@@ -98,11 +99,11 @@ class GameTest {
     @Test
     void testIsWinningFalse() {
         // GIVEN
-        game.setCharAtPosition('X', (byte) 0);
-        game.setCharAtPosition('O', (byte) 1);
-        game.setCharAtPosition('X', (byte) 2);
+        gameBoard.updateBox('X', (byte) 0);
+        gameBoard.updateBox('O', (byte) 1);
+        gameBoard.updateBox('X', (byte) 2);
         // WHEN
-        boolean actualIsWinning = game.isWinning();
+        boolean actualIsWinning = gameBoard.isWinning();
         // THEN
         assertFalse(actualIsWinning);
     }
@@ -110,9 +111,9 @@ class GameTest {
     @Test
     void isBoxInUseTrue() {
         // GIVEN
-        game.setCharAtPosition('X', (byte) 4);
+        gameBoard.updateBox('X', (byte) 4);
         // WHEN
-        boolean actualIsBoxInUse = game.isBoxFieldUsed((byte) 4);
+        boolean actualIsBoxInUse = gameBoard.isBoxFieldUsed((byte) 4);
         // THEN
         assertTrue(actualIsBoxInUse);
     }
@@ -120,31 +121,21 @@ class GameTest {
     @Test
     void isBoxInUseFalse() {
         // GIVEN
-        game.clearBoard();
+        gameBoard.clearBoard();
         // WHEN
-        boolean actualIsBoxInUse = game.isBoxFieldUsed((byte) 4);
+        boolean actualIsBoxInUse = gameBoard.isBoxFieldUsed((byte) 4);
         // THEN
         assertFalse(actualIsBoxInUse);
     }
 
     @Test
-    void testGenerateMove() {
+    void testUpdateBox() {
         // GIVEN
-        game.clearBoard();
+        gameBoard.clearBoard();
         // WHEN
-        byte move = game.generateMove();
+        gameBoard.updateBox('X', (byte) 5);
         // THEN
-        assertTrue(move >= 0 && move < 9);
-    }
-
-    @Test
-    void testSetCharAtPosition() {
-        // GIVEN
-        game.clearBoard();
-        // WHEN
-        game.setCharAtPosition('X', (byte) 5);
-        // THEN
-        assertEquals('X', game.getBox()[5]);
+        assertEquals('X', gameBoard.getBox()[5]);
     }
 
 }

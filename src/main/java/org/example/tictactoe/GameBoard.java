@@ -1,21 +1,24 @@
-package org.example.tictactoe.model;
+package org.example.tictactoe;
 
 import java.util.Arrays;
+import lombok.Getter;
 
 /**
  * Class representing the Tic-Tac-Toe game logic.
  * It manages the game board, checks for winning conditions,
  * and handles moves for both players.
  */
-public class Game {
+@Getter
+public class GameBoard {
     private static final byte SIZE = 3;
+
     private final char[] box;
 
     /**
      * Constructor to initialize the game board with default SIZE 3x3.
      * The board is filled with characters '1' to '9' representing available positions.
      */
-    public Game() {
+    public GameBoard() {
         box = new char[SIZE * SIZE];
         initializeBox();
     }
@@ -27,15 +30,6 @@ public class Game {
         for (byte i = 0; i < box.length; i++) {
             box[i] = (char) ('1' + i);
         }
-    }
-
-    /**
-     * Returns the current state of the game board.
-     *
-     * @return char array representing the game board.
-     */
-    public char[] getBox() {
-        return box;
     }
 
     /**
@@ -120,25 +114,16 @@ public class Game {
     }
 
     /**
-     * Generates a random move for the computer player ('O').
-     * The method selects a random position on the board that is not already occupied.
-     * It continues to generate random positions until an available one is found.
-     */
-    public byte generateMove() {
-        byte rand;
-        do {
-            rand = (byte) (Math.random() * box.length);
-        } while (isBoxFieldUsed(rand));
-        return rand;
-    }
-
-    /**
      * Sets the character ('X' or 'O') at the specified position on the board.
      *
      * @param ch  the character to place ('X' or 'O').
      * @param pos the position on the board (0-8).
      */
-    public void setCharAtPosition(char ch, byte pos) {
+    public void updateBox(char ch, byte pos) {
         box[pos] = ch;
+    }
+
+    public int getLength() {
+        return box.length;
     }
 }
