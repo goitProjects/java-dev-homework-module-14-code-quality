@@ -5,17 +5,44 @@ import java.util.Scanner;
 public class CheckTheGame {
     private char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private boolean boxEmpty = false;
-   private static final Scanner scan = new Scanner(System.in);
-    public byte winner = 0;
     private byte input;
     private byte rand;
     private byte i;
-    private boolean boxAvailable = false;
+
+    private static final Scanner SCAN = new Scanner(System.in);
     private static final char PLAYER = 'X';
     private static final char COMPUTER = 'O';
 
+    public byte winner = 0;
+
     public CheckTheGame(){
         clearBoard();
+    }
+
+    public void checkingForGame() {
+        printingBoard();
+        while (winner == 0) {
+            if (!boxEmpty) {
+                clearBoard();
+                boxEmpty = true;
+            }
+
+            playerMore();
+            computerOrPlayer();
+            if(winner != 0){
+                break;
+            }
+
+            computerMove();
+            computerOrPlayer();
+            if(winner != 0){
+                break;
+            }
+
+            printingBoard();
+        }
+        printingBoard();
+        switchForInfo();
     }
 
     private static char checkWinner(char[] box) {
@@ -31,31 +58,6 @@ public class CheckTheGame {
             }
         }
         return '\0';
-
-    }
-
-    public void checkingForGame() {
-        printingBoard();
-        while (winner == 0) {
-
-            if (!boxEmpty) {
-                clearBoard();
-                boxEmpty = true;
-            }
-            playerMore();
-            computerOrPlayer();
-            if(winner != 0){
-                break;
-            }
-            computerMove();
-            computerOrPlayer();
-            if(winner != 0){
-                break;
-            }
-            printingBoard();
-        }
-        printingBoard();
-        switchForInfo();
     }
 
     private void printingBoard(){
@@ -64,6 +66,15 @@ public class CheckTheGame {
         System.out.println(" " + box[3] + " | " + box[4] + " | " + box[5] + " ");
         System.out.println("-----------");
         System.out.println(" " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
+    }
+
+    private boolean empyCells() {
+        for (char c : box) {
+            if (c != PLAYER && c != COMPUTER) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void computerOrPlayer(){
@@ -77,15 +88,6 @@ public class CheckTheGame {
         }
     }
 
-    private boolean empyCells() {
-        for (char c : box) {
-            if (c != PLAYER && c != COMPUTER) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private  void switchForInfo(){
         switch (winner){
             case 1:
@@ -96,6 +98,9 @@ public class CheckTheGame {
                 break;
             case 3:
                 System.out.println("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+                break;
+            default:
+                System.out.println("Error");
                 break;
         }
     }
@@ -109,7 +114,7 @@ public class CheckTheGame {
 
     private void  playerMore(){
         while (true) {
-            input = scan.nextByte();
+            input = SCAN.nextByte();
             if (input > 0 && input < 10) {
                 if (box[input - 1] == PLAYER || box[input - 1] == COMPUTER)
                     System.out.println("That one is already in use. Enter another.");
