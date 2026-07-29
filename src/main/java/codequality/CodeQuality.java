@@ -35,7 +35,7 @@ public class CodeQuality {
         logger.info(msg);
     }
 
-    private boolean setStateOnRow(char c, State winner) {
+    private void setStateOnRow(char c, State winner) {
         if(board.isBoxRowSet(0, c)
                 || board.isBoxRowSet(1, c)
                 || board.isBoxRowSet(2, c)
@@ -45,10 +45,7 @@ public class CodeQuality {
                 || board.isBoxDiagonalSet(c)
         ) {
             this.state = winner;
-            return true;
         }
-
-        return false;
     }
 
     public void run() {

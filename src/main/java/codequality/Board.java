@@ -6,7 +6,7 @@ import java.util.Optional;
 public class Board {
     private static final String LINE_SEPARATOR = "-----------\n";
 
-    private Character[] box;
+    private final Character[] box;
 
     public Board() {
         this.box = new Character[9];
