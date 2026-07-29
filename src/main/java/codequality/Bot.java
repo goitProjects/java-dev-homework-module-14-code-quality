@@ -3,11 +3,10 @@ package codequality;
 import java.util.Random;
 
 public class Bot {
-    private final Random random;
+    private static final Random random = new Random();
     private final Board board;
 
     public Bot(Board board) {
-        this.random = new Random();
         this.board = board;
     }
 
