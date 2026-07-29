@@ -42,6 +42,7 @@ public class Board {
     public String toString() {
         // Too many concatenations waste memory for strings, so use StringBuilder instead
         // I don't use StringBuffer here as this code doesn't use threads.
+
         StringBuilder builder = new StringBuilder();
         builder.append("\n\n ").append(box[0]).append(" | ").append(box[1]).append(" | ").append(box[2]).append(" \n");
         builder.append(LINE_SEPARATOR);
