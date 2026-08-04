@@ -1,3 +1,3 @@
 # CodeQualityPractice
 CodeQualityPractice
-# Refactored version using SonarLint / SonarQube
+> Refactored version using SonarLint / SonarQube
